@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#3b4bdb">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<title>Denemeden Bilemezsin</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%233b4bdb'/%3E%3Crect x='28' y='20' width='44' height='60' rx='6' fill='white'/%3E%3Ccircle cx='67' cy='73' r='11' fill='%2312b886'/%3E%3C/svg%3E">
+<style>
+:root{--ink:#14172b;--mute:#666b85;--bg:#f2f3f9;--card:#fff;--line:#e2e4ef;--brand:#3b4bdb;--brand2:#e8ebff;--ok:#0f9d6e;--bad:#d64545;--r:18px;--nav:68px}
+*{box-sizing:border-box;margin:0}
+html{-webkit-text-size-adjust:100%}
+body{font:17px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--ink);background:var(--bg);min-height:100dvh;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer;-webkit-tap-highlight-color:transparent}
+:focus-visible{outline:3px solid var(--brand);outline-offset:2px}
+#nav{position:fixed;z-index:20;left:0;right:0;bottom:0;display:flex;background:var(--card);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom)}
+#nav a{flex:1;min-height:var(--nav);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;color:var(--mute);font-size:13px;font-weight:600}
+#nav a b{font-size:22px;line-height:1}
+#nav a.on{color:var(--brand)}
+#app{max-width:1180px;margin:0 auto;padding:20px 16px calc(var(--nav) + env(safe-area-inset-bottom) + 28px);padding-top:max(20px,env(safe-area-inset-top))}
+h1{font-size:clamp(28px,6vw,44px);line-height:1.05;letter-spacing:-.02em;font-weight:900}
+h2{font-size:22px;margin:0 0 12px}
+h3{font-size:18px}
+.sub{color:var(--mute);margin:8px 0 20px}
+.sub:empty{margin:0 0 12px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:18px}
+.stack>*+*{margin-top:14px}
+.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr))}
+.split{display:grid;gap:18px}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.between{justify-content:space-between}
+.mute{color:var(--mute);font-size:15px}
+.btn{min-height:52px;padding:0 22px;border-radius:14px;border:0;background:var(--brand);color:#fff;font-weight:800;display:inline-flex;align-items:center;justify-content:center;gap:8px}
+.btn.big{width:100%;min-height:68px;font-size:20px;border-radius:20px}
+.btn.alt{background:var(--brand2);color:var(--brand)}
+.btn.ghost{background:transparent;color:var(--mute);border:1px solid var(--line)}
+.btn.danger{background:#fdeaea;color:var(--bad)}
+.btn.sm{min-height:44px;padding:0 14px;font-size:15px}
+.x{min-width:44px;min-height:44px;border:0;background:none;color:var(--mute);font-size:22px;border-radius:12px}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 16px}
+.chip{min-height:44px;padding:0 18px;border-radius:99px;border:1px solid var(--line);background:var(--card);font-weight:700;color:var(--mute)}
+.chip.on{background:var(--ink);border-color:var(--ink);color:#fff}
+.exam{display:block;padding:16px 18px;border-radius:var(--r);background:var(--card);border:1px solid var(--line);min-height:72px}
+.exam .n{font-size:26px;font-weight:900;color:var(--brand);white-space:nowrap}
+.exam b{display:block}
+.tag{display:inline-block;font-size:13px;font-weight:800;border-radius:8px;padding:2px 8px;background:var(--brand2);color:var(--brand)}
+.tag.ayt{background:#ffefd9;color:#b35a00}
+.stats{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px}
+.stat b{display:block;font-size:30px;font-weight:900;letter-spacing:-.02em}
+.stat span{color:var(--mute);font-size:14px}
+label{display:block;font-weight:700;margin-bottom:6px}
+input,select,textarea{width:100%;min-height:52px;padding:12px 14px;border:1.5px solid var(--line);border-radius:14px;background:#fff;font-size:17px}
+textarea{min-height:96px;resize:vertical}
+.dyb{display:grid;grid-template-columns:repeat(3,1fr) auto;gap:10px;align-items:end}
+.dyb .net{min-width:72px;text-align:right;font-weight:900;font-size:20px;color:var(--ok);padding-bottom:12px}
+.dyb label{font-size:14px;color:var(--mute);margin-bottom:4px}
+.subj{padding:14px 0;border-top:1px solid var(--line)}
+.subj:first-child{border:0}
+.net-line{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--line)}
+.net-line b{color:var(--ok)}
+.total{font-size:34px;font-weight:900;color:var(--ok)}
+.topic{display:flex;align-items:center;justify-content:space-between;gap:8px;background:var(--bg);border-radius:12px;padding:4px 4px 4px 14px;margin-top:8px}
+.q{background:var(--card);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.q img{display:block;width:100%;height:auto;max-height:420px;object-fit:contain;background:#eef0f7;cursor:zoom-in}
+.q .in{padding:12px 14px}
+.q .in p{margin-top:6px;white-space:pre-wrap;overflow-wrap:anywhere}
+.qgrid{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(min(100%,260px),1fr))}
+.overlay{position:fixed;inset:0;z-index:50;background:rgba(20,23,43,.55);display:flex;align-items:flex-end;justify-content:center}
+.overlay[hidden],#toast[hidden]{display:none}
+.panel{background:var(--card);width:100%;max-width:560px;max-height:92dvh;overflow:auto;border-radius:24px 24px 0 0;padding:20px 18px calc(20px + env(safe-area-inset-bottom))}
+.preview{width:100%;max-height:320px;object-fit:contain;background:#eef0f7;border-radius:14px}
+.viewer{background:#0d0f1c;align-items:stretch;flex-direction:column}
+.viewer .bar{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 12px;padding-top:max(10px,env(safe-area-inset-top));color:#fff}
+.viewer .bar .btn{background:#ffffff22}
+.viewer .body{flex:1;overflow:auto;display:flex;align-items:flex-start;justify-content:center;padding:8px}
+.viewer img{max-width:100%;max-height:calc(100dvh - 150px);object-fit:contain;cursor:zoom-in}
+.viewer img.zoom{max-width:none;max-height:none;width:220%;cursor:zoom-out}
+.viewer .cap{color:#fff;padding:10px 16px calc(12px + env(safe-area-inset-bottom));font-size:15px}
+.chart{width:100%;height:auto;display:block}
+.empty{text-align:center;color:var(--mute);padding:36px 12px}
+#toast{position:fixed;z-index:80;left:50%;transform:translateX(-50%);bottom:calc(var(--nav) + 16px + env(safe-area-inset-bottom));background:var(--ink);color:#fff;padding:12px 18px;border-radius:14px;font-weight:700;max-width:90vw;text-align:center}
+@media (orientation:landscape) and (max-height:500px){:root{--nav:52px}#nav a span{display:none}.overlay{align-items:center}.panel{border-radius:20px;max-height:96dvh}}
+@media (min-width:700px){#app{padding-left:28px;padding-right:28px}.overlay{align-items:center}.panel{border-radius:24px}.grid.two{grid-template-columns:repeat(2,1fr)}}
+@media (min-width:900px){
+  body{padding-left:104px}
+  #nav{top:0;right:auto;bottom:0;width:104px;flex-direction:column;justify-content:center;gap:6px;border-top:0;border-right:1px solid var(--line);padding:0}
+  #nav a{flex:none;min-height:84px}
+  #app{padding-bottom:40px}
+  #toast{bottom:24px}
+  .split.detail{grid-template-columns:minmax(300px,4fr) 6fr;align-items:start}
+  .split.detail .side{position:sticky;top:16px}
+}
+@media (min-width:1300px){#app{padding-top:36px}}
+</style>
+</head>
+<body>
+<nav id="nav">
+  <a href="#/" data-r="home"><b>⌂</b><span>Ana Sayfa</span></a>
+  <a href="#/exams" data-r="exams"><b>☰</b><span>Denemeler</span></a>
+  <a href="#/questions" data-r="questions"><b>▣</b><span>Sorular</span></a>
+  <a href="#/stats" data-r="stats"><b>▲</b><span>İstatistik</span></a>
+</nav>
+<main id="app"></main>
+<div id="sheet" class="overlay" hidden></div>
+<div id="viewer" class="overlay viewer" hidden></div>
+<div id="toast" hidden></div>
+
+<script>
+'use strict';
+/* ===== Sabitler ===== */
+const SUBJECTS = {
+  TYT: [['Türkçe', 40], ['Matematik', 40], ['Sosyal', 20], ['Fen', 20]],
+  AYT: [['Matematik', 40], ['Fizik', 14], ['Kimya', 13], ['Biyoloji', 13]]
+};
+const MONTHS = ['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'];
+
+/* ===== Yardımcılar ===== */
+const $ = (s, r = document) => r.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fmt = n => (Math.round(n * 100) / 100).toFixed(2).replace('.', ',');
+const netOf = (d, y) => (d || 0) - (y || 0) / 4;
+const today = () => { const d = new Date(); return new Date(d - d.getTimezoneOffset() * 6e4).toISOString().slice(0, 10); };
+const longDate = s => { const [y, m, d] = s.split('-'); return `${+d} ${MONTHS[m - 1]} ${y}`; };
+const shortDate = s => s.split('-').reverse().join('.');
+const uid = () => Date.now() * 1000 + Math.floor(Math.random() * 1000);
+function toast(msg) { const t = $('#toast'); t.textContent = msg; t.hidden = false; clearTimeout(toast.t); toast.t = setTimeout(() => t.hidden = true, 2600); }
+
+/* ===== IndexedDB ===== */
+let db;
+function openDB() {
+  return new Promise((res, rej) => {
+    const rq = indexedDB.open('denemeden-bilemezsin', 1);
+    rq.onupgradeneeded = () => {
+      const d = rq.result;
+      d.createObjectStore('exams', { keyPath: 'id' });
+      d.createObjectStore('weakTopics', { keyPath: 'id' }).createIndex('examId', 'examId');
+      d.createObjectStore('questions', { keyPath: 'id' }).createIndex('examId', 'examId');
+    };
+    rq.onsuccess = () => res(rq.result);
+    rq.onerror = () => rej(rq.error);
+  });
+}
+const req = r => new Promise((res, rej) => { r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error); });
+const all = s => req(db.transaction(s).objectStore(s).getAll());
+const get = (s, id) => req(db.transaction(s).objectStore(s).get(id));
+const put = (s, v) => req(db.transaction(s, 'readwrite').objectStore(s).put(v));
+const del = (s, id) => req(db.transaction(s, 'readwrite').objectStore(s).delete(id));
+const byExam = (s, id) => req(db.transaction(s).objectStore(s).index('examId').getAll(id));
+async function delExam(id) {
+  for (const s of ['weakTopics', 'questions']) for (const x of await byExam(s, id)) await del(s, x.id);
+  await del('exams', id);
+}
+const sortExams = l => l.sort((a, b) => b.date.localeCompare(a.date) || b.id - a.id);
+
+/* ===== Görüntü küçültme (oran korunur, metin okunur kalır) ===== */
+async function shrink(file, max = 1800) {
+  try {
+    const bmp = await createImageBitmap(file, { imageOrientation: 'from-image' });
+    const k = Math.min(1, max / Math.max(bmp.width, bmp.height));
+    const c = document.createElement('canvas');
+    c.width = Math.round(bmp.width * k); c.height = Math.round(bmp.height * k);
+    c.getContext('2d').drawImage(bmp, 0, 0, c.width, c.height);
+    return await new Promise(r => c.toBlob(b => r(b || file), 'image/jpeg', 0.88));
+  } catch { return file; }
+}
+
+/* ===== Nesne URL yönetimi ===== */
+let urls = [];
+const blobURL = b => { const u = URL.createObjectURL(b); urls.push(u); return u; };
+const freeURLs = () => { urls.forEach(URL.revokeObjectURL); urls = []; };
+
+/* ===== Yönlendirme ===== */
+const state = { exFilter: 'Tümü', qType: 'Tümü', qSubj: 'Tümü', statType: 'TYT' };
+async function route() {
+  freeURLs();
+  const [, r = '', arg] = location.hash.slice(1).split('/');
+  const name = r || 'home';
+  document.querySelectorAll('#nav a').forEach(a => a.classList.toggle('on', a.dataset.r === (name === 'exam' || name === 'add' ? 'exams' : name)));
+  const view = { home, exams, exam: () => examPage(+arg), questions, stats, add: addPage }[name] || home;
+  $('#app').innerHTML = await view();
+  window.scrollTo(0, 0);
+  bind(name, +arg);
+}
+const chipsHTML = (opts, cur, key) => `<div class="chips">${opts.map(o => `<button class="chip ${o === cur ? 'on' : ''}" data-f="${key}" data-v="${o}">${o}</button>`).join('')}</div>`;
+const examCard = e => `<a class="exam" href="#/exam/${e.id}"><div class="row between"><div><span class="tag ${e.type === 'AYT' ? 'ayt' : ''}">${e.type}</span> <b>${esc(e.name)}</b><span class="mute">${shortDate(e.date)}</span></div><div class="n">${fmt(e.totalNet)}</div></div></a>`;
+
+/* ===== Sayfalar ===== */
+async function home() {
+  const ex = sortExams(await all('exams')).slice(0, 6);
+  return `<div class="stack"><div><h1>DENEMEDEN BİLEMEZSİN</h1><p class="sub">Denemeni kaydet. Eksiklerini gör. Sorularını unutma.</p>
+  <a class="btn big" href="#/add">+ DENEME EKLE</a></div>
+  <h2>Son denemeler</h2>${ex.length ? `<div class="grid">${ex.map(examCard).join('')}</div>` : '<div class="card empty">Henüz deneme yok. İlk denemeni ekleyerek başla.</div>'}</div>`;
+}
+
+async function exams() {
+  const l = sortExams(await all('exams')).filter(e => state.exFilter === 'Tümü' || e.type === state.exFilter);
+  return `<h1>Denemeler</h1><p class="sub"></p>${chipsHTML(['Tümü', 'TYT', 'AYT'], state.exFilter, 'exFilter')}
+  ${l.length ? `<div class="grid">${l.map(examCard).join('')}</div>` : '<div class="card empty">Bu filtrede deneme yok.</div>'}`;
+}
+
+let addType = 'TYT';
+async function addPage() {
+  const n = (await all('exams')).filter(e => e.type === addType).length + 1;
+  const rows = SUBJECTS[addType].map(([s, max], i) => `<div class="subj" data-i="${i}"><h3>${s} <span class="mute">(${max} soru)</span></h3>
+    <div class="dyb"><div><label>Doğru</label><input inputmode="numeric" type="number" min="0" max="${max}" data-k="d" placeholder="0"></div>
+    <div><label>Yanlış</label><input inputmode="numeric" type="number" min="0" max="${max}" data-k="y" placeholder="0"></div>
+    <div><label>Boş</label><input inputmode="numeric" type="number" min="0" max="${max}" data-k="b" placeholder="0"></div>
+    <div class="net" data-net>0,00</div></div></div>`).join('');
+  return `<h1>Deneme ekle</h1><p class="sub"></p><div class="stack" style="max-width:760px">
+  <div class="chips">${['TYT', 'AYT'].map(t => `<button class="chip ${t === addType ? 'on' : ''}" data-t="${t}">${t}</button>`).join('')}</div>
+  <div class="card stack"><div><label for="nm">Deneme adı</label><input id="nm" value="${addType} Genel Deneme #${n}"></div>
+  <div><label for="dt">Tarih</label><input id="dt" type="date" value="${today()}"></div></div>
+  <div class="card">${rows}</div>
+  <div class="card row between"><div><span class="mute">Toplam net</span><div class="total" id="tot">0,00</div></div><button class="btn" id="save">Kaydet</button></div></div>`;
+}
+
+async function examPage(id) {
+  const e = await get('exams', id);
+  if (!e) return '<div class="card empty">Deneme bulunamadı. <a href="#/exams">Denemelere dön</a></div>';
+  const [tops, qs] = await Promise.all([byExam('weakTopics', id), byExam('questions', id)]);
+  const subs = SUBJECTS[e.type].map(([s]) => s);
+  const netLines = subs.map(s => `<div class="net-line"><span>${s}</span><b>${fmt(e.subjects[s]?.net || 0)}</b></div>`).join('');
+  const weak = subs.map(s => `<div class="subj"><div class="row between"><h3>${s}</h3></div>
+    ${tops.filter(t => t.subject === s).map(t => `<div class="topic"><span>${esc(t.topic)}</span><button class="x" data-deltopic="${t.id}" aria-label="Sil">✕</button></div>`).join('')}
+    <div class="row" style="margin-top:10px"><button class="btn alt sm" data-addtopic="${s}">+ Eksik konu ekle</button></div></div>`).join('');
+  const qHTML = subs.map(s => {
+    const l = qs.filter(q => q.subject === s).sort((a, b) => b.createdAt - a.createdAt);
+    return `<div class="subj"><div class="row between"><h3>${s} <span class="mute">${l.length ? l.length + ' soru' : ''}</span></h3><button class="btn sm" data-addq="${s}">+ Soru ekle</button></div>
+    ${l.length ? `<div class="qgrid" style="margin-top:12px">${l.map(q => qCard(q, e, false)).join('')}</div>` : ''}</div>`;
+  }).join('');
+  return `<div class="stack"><div class="row between"><div><span class="tag ${e.type === 'AYT' ? 'ayt' : ''}">${e.type}</span><h1 style="font-size:clamp(24px,5vw,36px)">${esc(e.name)}</h1><p class="mute">${longDate(e.date)}</p></div>
+  <button class="btn danger sm" id="delexam">Denemeyi sil</button></div>
+  <div class="split detail"><div class="side stack"><div class="card"><h2>Netler</h2>${netLines}<div class="net-line" style="border:0"><span>Toplam</span><span class="total">${fmt(e.totalNet)}</span></div></div>
+  <div class="card"><h2>Eksik Konular</h2>${weak}</div></div>
+  <div class="card"><h2>Soru Arşivi</h2>${qHTML}</div></div></div>`;
+}
+
+function qCard(q, e, showMeta) {
+  return `<div class="q"><img src="${blobURL(q.image)}" alt="Soru fotoğrafı" data-view="${q.id}" loading="lazy">
+  <div class="in">${showMeta ? `<a href="#/exam/${e.id}"><span class="tag ${e.type === 'AYT' ? 'ayt' : ''}">${e.type}</span> <b>${esc(e.name)}</b></a><div class="mute">${q.subject}</div>` : ''}
+  ${q.note ? `<p>${esc(q.note)}</p>` : ''}<div class="row between" style="margin-top:8px"><span class="mute">${new Date(q.createdAt).toLocaleDateString('tr-TR')}</span><button class="x" data-delq="${q.id}" aria-label="Soruyu sil">🗑</button></div></div></div>`;
+}
+
+async function questions() {
+  const [qs, exs] = await Promise.all([all('questions'), all('exams')]);
+  const m = Object.fromEntries(exs.map(e => [e.id, e]));
+  const subjList = ['Tümü', ...new Set(Object.values(SUBJECTS).flat().map(x => x[0]))];
+  const l = qs.filter(q => m[q.examId] && (state.qType === 'Tümü' || m[q.examId].type === state.qType) && (state.qSubj === 'Tümü' || q.subject === state.qSubj)).sort((a, b) => b.createdAt - a.createdAt);
+  return `<h1>Sorular</h1><p class="sub"></p>${chipsHTML(['Tümü', 'TYT', 'AYT'], state.qType, 'qType')}${chipsHTML(subjList, state.qSubj, 'qSubj')}
+  ${l.length ? `<div class="qgrid">${l.map(q => qCard(q, m[q.examId], true)).join('')}</div>` : '<div class="card empty">Arşivlenmiş soru yok. Bir denemenin içinden soru fotoğrafı ekleyebilirsin.</div>'}`;
+}
+
+function chart(title, pts) {
+  if (pts.length < 2) return `<div class="card"><h3>${title}</h3><p class="empty">Grafik için en az 2 deneme gerekir.</p></div>`;
+  const W = 600, H = 220, p = { l: 36, r: 14, t: 14, b: 26 }, top = Math.ceil(Math.max(...pts.map(x => x.v), 1) / 10) * 10 || 10;
+  const x = i => p.l + i * (W - p.l - p.r) / (pts.length - 1), y = v => H - p.b - v / top * (H - p.t - p.b);
+  const grid = [0, .5, 1].map(f => `<line x1="${p.l}" x2="${W - p.r}" y1="${y(top * f)}" y2="${y(top * f)}" stroke="#e2e4ef"/><text x="${p.l - 6}" y="${y(top * f) + 4}" text-anchor="end" font-size="12" fill="#666b85">${Math.round(top * f)}</text>`).join('');
+  const line = pts.map((q, i) => `${i ? 'L' : 'M'}${x(i)},${y(q.v)}`).join('');
+  const dots = pts.map((q, i) => `<circle cx="${x(i)}" cy="${y(q.v)}" r="5" fill="#3b4bdb"><title>${shortDate(q.d)} · ${fmt(q.v)}</title></circle>`).join('');
+  return `<div class="card"><h3>${title}</h3><svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="${title}">${grid}<path d="${line}" fill="none" stroke="#3b4bdb" stroke-width="3" stroke-linejoin="round"/>${dots}
+  <text x="${p.l}" y="${H - 6}" font-size="12" fill="#666b85">${shortDate(pts[0].d)}</text><text x="${W - p.r}" y="${H - 6}" font-size="12" text-anchor="end" fill="#666b85">${shortDate(pts.at(-1).d)}</text></svg></div>`;
+}
+
+async function stats() {
+  const l = sortExams(await all('exams'));
+  const nets = l.map(e => e.totalNet);
+  const asc = t => l.filter(e => e.type === t).reverse();
+  const cell = (v, t) => `<div class="stat"><b>${v}</b><span>${t}</span></div>`;
+  const t = state.statType, list = asc(t);
+  return `<h1>İstatistik</h1><p class="sub"></p><div class="stack">
+  <div class="stats">${cell(l.length, 'Toplam deneme')}${cell(asc('TYT').length, 'TYT deneme')}${cell(asc('AYT').length, 'AYT deneme')}
+  ${cell(l.length ? fmt(l[0].totalNet) : '-', 'Son toplam net')}${cell(l.length ? fmt(nets.reduce((a, b) => a + b, 0) / l.length) : '-', 'Ortalama net')}${cell(l.length ? fmt(Math.max(...nets)) : '-', 'En yüksek net')}</div>
+  ${chipsHTML(['TYT', 'AYT'], t, 'statType')}
+  <div class="grid two">${chart(t + ' Net Değişimi', list.map(e => ({ d: e.date, v: e.totalNet })))}
+  ${SUBJECTS[t].map(([s]) => chart(s, list.filter(e => e.subjects[s]).map(e => ({ d: e.date, v: e.subjects[s].net })))).join('')}</div></div>`;
+}
+
+/* ===== Olaylar ===== */
+function bind(name, id) {
+  document.querySelectorAll('[data-f]').forEach(b => b.onclick = () => { state[b.dataset.f] = b.dataset.v; route(); });
+  document.querySelectorAll('[data-view]').forEach(i => i.onclick = () => openViewer(+i.dataset.view));
+  document.querySelectorAll('[data-delq]').forEach(b => b.onclick = async () => { if (confirm('Bu soru silinsin mi?')) { await del('questions', +b.dataset.delq); route(); } });
+  if (name === 'add') bindAdd();
+  if (name === 'exam') bindExam(id);
+}
+
+function bindAdd() {
+  document.querySelectorAll('[data-t]').forEach(b => b.onclick = () => { addType = b.dataset.t; route(); });
+  const calc = () => {
+    let tot = 0;
+    document.querySelectorAll('.subj').forEach(s => { const v = k => +s.querySelector(`[data-k=${k}]`).value || 0; const n = netOf(v('d'), v('y')); s.querySelector('[data-net]').textContent = fmt(n); tot += n; });
+    $('#tot').textContent = fmt(tot); return tot;
+  };
+  document.querySelectorAll('.dyb input').forEach(i => i.oninput = calc);
+  document.querySelectorAll('input').forEach(i => i.addEventListener('focus', () => setTimeout(() => i.scrollIntoView({ block: 'center', behavior: 'smooth' }), 300)));
+  $('#save').onclick = async () => {
+    const name = $('#nm').value.trim(), date = $('#dt').value;
+    if (!name || !date) return toast('Deneme adı ve tarih gerekli');
+    const subjects = {};
+    for (const s of document.querySelectorAll('.subj')) {
+      const [sn, max] = SUBJECTS[addType][+s.dataset.i], v = k => +s.querySelector(`[data-k=${k}]`).value || 0;
+      const d = v('d'), y = v('y'), b = v('b');
+      if (d < 0 || y < 0 || b < 0 || d + y > max) return toast(`${sn}: doğru + yanlış en fazla ${max} olabilir`);
+      subjects[sn] = { d, y, b, net: netOf(d, y) };
+    }
+    const totalNet = Object.values(subjects).reduce((a, s) => a + s.net, 0), ex = { id: uid(), type: addType, name, date, subjects, totalNet };
+    await put('exams', ex);
+    toast('Deneme kaydedildi');
+    location.hash = '#/exam/' + ex.id;
+  };
+}
+
+function bindExam(id) {
+  $('#delexam').onclick = async () => { if (confirm('Deneme, eksik konular ve soru fotoğrafları silinecek. Emin misin?')) { await delExam(id); location.hash = '#/exams'; } };
+  document.querySelectorAll('[data-deltopic]').forEach(b => b.onclick = async () => { await del('weakTopics', +b.dataset.deltopic); route(); });
+  document.querySelectorAll('[data-addtopic]').forEach(b => b.onclick = () => topicSheet(id, b.dataset.addtopic));
+  document.querySelectorAll('[data-addq]').forEach(b => b.onclick = () => questionSheet(id, b.dataset.addq));
+}
+
+/* ===== Alt paneller ===== */
+function openSheet(html) {
+  const s = $('#sheet'); s.innerHTML = `<div class="panel">${html}</div>`; s.hidden = false;
+  s.onclick = e => { if (e.target === s) closeSheet(); };
+  s.querySelectorAll('input,textarea').forEach(i => i.addEventListener('focus', () => setTimeout(() => i.scrollIntoView({ block: 'center', behavior: 'smooth' }), 300)));
+  return s;
+}
+function closeSheet() { $('#sheet').hidden = true; $('#sheet').innerHTML = ''; }
+
+function topicSheet(examId, subject) {
+  const s = openSheet(`<h2>${subject}: eksik konu</h2><input id="tp" placeholder="Eksik olduğun konuyu yaz..." autocomplete="off" enterkeyhint="done">
+  <div class="row" style="margin-top:14px"><button class="btn" id="ok">Ekle</button><button class="btn ghost" id="no">Vazgeç</button></div>`);
+  const inp = $('#tp', s); inp.focus();
+  const add = async () => { const t = inp.value.trim(); if (!t) return; await put('weakTopics', { id: uid(), examId, subject, topic: t, createdAt: Date.now() }); closeSheet(); route(); };
+  $('#ok', s).onclick = add; $('#no', s).onclick = closeSheet; inp.onkeydown = e => e.key === 'Enter' && add();
+}
+
+function questionSheet(examId, subject) {
+  let blob = null;
+  const s = openSheet(`<h2>${subject}: soru ekle</h2><div class="stack">
+  <div class="row"><label class="btn alt" style="flex:1;margin:0">📷 Fotoğraf çek<input type="file" accept="image/*" capture="environment" hidden data-file></label>
+  <label class="btn alt" style="flex:1;margin:0">🖼 Galeriden seç<input type="file" accept="image/*" hidden data-file></label></div>
+  <img class="preview" id="pv" alt="" hidden><div><label for="nt">Not (isteğe bağlı)</label><textarea id="nt" placeholder="Bu soruda ne yanlış yaptın?"></textarea></div>
+  <div class="row"><button class="btn" id="ok">Kaydet</button><button class="btn ghost" id="no">Vazgeç</button></div></div>`);
+  s.querySelectorAll('[data-file]').forEach(f => f.onchange = async () => {
+    if (!f.files[0]) return;
+    toast('Fotoğraf hazırlanıyor...'); blob = await shrink(f.files[0]);
+    const pv = $('#pv', s); pv.src = blobURL(blob); pv.hidden = false;
+  });
+  $('#no', s).onclick = closeSheet;
+  $('#ok', s).onclick = async () => {
+    if (!blob) return toast('Önce bir fotoğraf seç');
+    await put('questions', { id: uid(), examId, subject, image: blob, note: $('#nt', s).value.trim(), createdAt: Date.now() });
+    closeSheet(); toast('Soru arşive eklendi'); route();
+  };
+}
+
+async function openViewer(id) {
+  const q = await get('questions', id), e = await get('exams', q.examId), v = $('#viewer');
+  v.innerHTML = `<div class="bar"><button class="btn" id="back">← Geri</button><span>${esc(e?.name || '')} · ${q.subject}</span></div>
+  <div class="body"><img src="${blobURL(q.image)}" alt="Soru"></div>${q.note ? `<div class="cap">${esc(q.note)}</div>` : ''}`;
+  v.hidden = false;
+  const img = $('img', v); img.onclick = () => img.classList.toggle('zoom');
+  $('#back').onclick = () => { v.hidden = true; v.innerHTML = ''; };
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') { $('#viewer').hidden = true; closeSheet(); } });
+
+/* ===== Başlat ===== */
+window.addEventListener('hashchange', route);
+(async () => {
+  try {
+    db = await openDB();
+    if (navigator.storage && navigator.storage.persist) navigator.storage.persist();
+    await route();
+  } catch (err) {
+    $('#app').innerHTML = '<div class="card empty">Veri depolama açılamadı. Gizli sekmede olabilirsin ya da tarayıcı yerel dosyalarda depolamaya izin vermiyor. Normal sekmede veya GitHub Pages adresinden aç.</div>';
+  }
+})();
+</script>
+</body>
+</html>
