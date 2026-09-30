@@ -2,15 +2,14 @@
 <html lang="tr">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
 <meta name="theme-color" content="#3b4bdb">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="mobile-web-app-capable" content="yes">
 <title>Denemeden Bilemezsin</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%233b4bdb'/%3E%3Crect x='28' y='20' width='44' height='60' rx='6' fill='white'/%3E%3Ccircle cx='67' cy='73' r='11' fill='%2312b886'/%3E%3C/svg%3E">
 <style>
 :root{--ink:#14172b;--mute:#666b85;--bg:#f2f3f9;--card:#fff;--line:#e2e4ef;--brand:#3b4bdb;--brand2:#e8ebff;--ok:#0f9d6e;--bad:#d64545;--r:18px;--nav:68px}
 *{box-sizing:border-box;margin:0}
+[hidden]{display:none!important}
 html{-webkit-text-size-adjust:100%}
 body{font:17px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--ink);background:var(--bg);min-height:100dvh;overflow-x:hidden}
 a{color:inherit;text-decoration:none}
@@ -18,7 +17,7 @@ button,input,select,textarea{font:inherit;color:inherit}
 button{cursor:pointer;-webkit-tap-highlight-color:transparent}
 :focus-visible{outline:3px solid var(--brand);outline-offset:2px}
 #nav{position:fixed;z-index:20;left:0;right:0;bottom:0;display:flex;background:var(--card);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom)}
-#nav a{flex:1;min-height:var(--nav);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;color:var(--mute);font-size:13px;font-weight:600}
+#nav a{flex:1;min-height:var(--nav);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;color:var(--mute);font-size:12px;font-weight:600}
 #nav a b{font-size:22px;line-height:1}
 #nav a.on{color:var(--brand)}
 #app{max-width:1180px;margin:0 auto;padding:20px 16px calc(var(--nav) + env(safe-area-inset-bottom) + 28px);padding-top:max(20px,env(safe-area-inset-top))}
@@ -34,21 +33,34 @@ h3{font-size:18px}
 .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
 .between{justify-content:space-between}
 .mute{color:var(--mute);font-size:15px}
+.ok{color:var(--ok)}.bad{color:var(--bad)}
 .btn{min-height:52px;padding:0 22px;border-radius:14px;border:0;background:var(--brand);color:#fff;font-weight:800;display:inline-flex;align-items:center;justify-content:center;gap:8px}
 .btn.big{width:100%;min-height:68px;font-size:20px;border-radius:20px}
 .btn.alt{background:var(--brand2);color:var(--brand)}
 .btn.ghost{background:transparent;color:var(--mute);border:1px solid var(--line)}
 .btn.danger{background:#fdeaea;color:var(--bad)}
+.btn.karma{background:linear-gradient(135deg,#14172b,#3b4bdb)}
 .btn.sm{min-height:44px;padding:0 14px;font-size:15px}
+.btn:disabled{opacity:.4;cursor:not-allowed}
 .x{min-width:44px;min-height:44px;border:0;background:none;color:var(--mute);font-size:22px;border-radius:12px}
+.bigrow{display:grid;gap:12px}
 .chips{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 16px}
 .chip{min-height:44px;padding:0 18px;border-radius:99px;border:1px solid var(--line);background:var(--card);font-weight:700;color:var(--mute)}
 .chip.on{background:var(--ink);border-color:var(--ink);color:#fff}
+.chip.sm{min-height:40px;padding:0 14px;font-size:15px}
+.chip small{opacity:.7;margin-left:6px;font-size:13px}
+.chip.new{border-style:dashed;color:var(--brand)}
+.tagbox{max-height:160px;overflow:auto}
 .exam{display:block;padding:16px 18px;border-radius:var(--r);background:var(--card);border:1px solid var(--line);min-height:72px}
 .exam .n{font-size:26px;font-weight:900;color:var(--brand);white-space:nowrap}
 .exam b{display:block}
 .tag{display:inline-block;font-size:13px;font-weight:800;border-radius:8px;padding:2px 8px;background:var(--brand2);color:var(--brand)}
 .tag.ayt{background:#ffefd9;color:#b35a00}
+.tagrow{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.tg{display:inline-flex;align-items:center;background:var(--brand2);color:var(--brand);font-weight:700;font-size:14px;border-radius:99px;padding:3px 12px}
+.tg.on{padding-right:2px}
+.tg .tx{min-width:32px;min-height:32px;border:0;background:none;color:inherit;font-size:14px}
+.sugg{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
 .stats{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
 .stat{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px}
 .stat b{display:block;font-size:30px;font-weight:900;letter-spacing:-.02em}
@@ -65,27 +77,69 @@ textarea{min-height:96px;resize:vertical}
 .net-line b{color:var(--ok)}
 .total{font-size:34px;font-weight:900;color:var(--ok)}
 .topic{display:flex;align-items:center;justify-content:space-between;gap:8px;background:var(--bg);border-radius:12px;padding:4px 4px 4px 14px;margin-top:8px}
+.ovl{position:relative;background:#eef0f7}
+.ovl img{display:block;width:100%;height:auto}
+.ovl img.drw{position:absolute;left:0;top:0;height:100%;pointer-events:none}
 .q{background:var(--card);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
-.q img{display:block;width:100%;height:auto;max-height:420px;object-fit:contain;background:#eef0f7;cursor:zoom-in}
+.qi{cursor:pointer}
 .q .in{padding:12px 14px}
-.q .in p{margin-top:6px;white-space:pre-wrap;overflow-wrap:anywhere}
-.qgrid{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(min(100%,260px),1fr))}
+.q .in p{margin-top:8px;white-space:pre-wrap;overflow-wrap:anywhere}
+.qgrid{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(min(100%,280px),1fr))}
+.subjgrid{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));margin-bottom:18px}
+.ksub{min-height:84px;border:2px solid var(--line);background:var(--card);border-radius:var(--r);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-size:19px;font-weight:800}
+.ksub span{font-size:13px;color:var(--mute);font-weight:600}
+.ksub.on{border-color:var(--brand);background:var(--brand2)}
 .overlay{position:fixed;inset:0;z-index:50;background:rgba(20,23,43,.55);display:flex;align-items:flex-end;justify-content:center}
-.overlay[hidden],#toast[hidden]{display:none}
 .panel{background:var(--card);width:100%;max-width:560px;max-height:92dvh;overflow:auto;border-radius:24px 24px 0 0;padding:20px 18px calc(20px + env(safe-area-inset-bottom))}
 .preview{width:100%;max-height:320px;object-fit:contain;background:#eef0f7;border-radius:14px}
-.viewer{background:#0d0f1c;align-items:stretch;flex-direction:column}
-.viewer .bar{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 12px;padding-top:max(10px,env(safe-area-inset-top));color:#fff}
-.viewer .bar .btn{background:#ffffff22}
-.viewer .body{flex:1;overflow:auto;display:flex;align-items:flex-start;justify-content:center;padding:8px}
-.viewer img{max-width:100%;max-height:calc(100dvh - 150px);object-fit:contain;cursor:zoom-in}
-.viewer img.zoom{max-width:none;max-height:none;width:220%;cursor:zoom-out}
-.viewer .cap{color:#fff;padding:10px 16px calc(12px + env(safe-area-inset-bottom));font-size:15px}
+.full{position:fixed;inset:0;display:flex;flex-direction:column;background:var(--bg)}
+#detail{z-index:60}
+#editor{z-index:70;background:#1b1e2e;user-select:none;-webkit-user-select:none}
+.dtop,.etop{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 12px;padding-top:max(10px,env(safe-area-inset-top))}
+.dtop{background:var(--card);border-bottom:1px solid var(--line)}
+.dbody{flex:1;overflow:auto;padding:14px;padding-bottom:calc(24px + env(safe-area-inset-bottom));display:grid;gap:16px;align-content:start;overscroll-behavior:contain}
+.dimg{cursor:pointer;border-radius:var(--r);overflow:hidden;border:1px solid var(--line);max-width:1000px;width:100%;margin:0 auto}
+.etop{color:#fff}
+.etop .btn.ghost{color:#fff;border-color:#ffffff44}
+.etools{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;padding:0 8px 8px}
+.tl{min-width:54px;min-height:54px;border-radius:12px;border:0;background:#ffffff18;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1}
+.tl i{font-style:normal;font-size:20px}
+.tl span{font-size:10px;margin-top:3px;font-weight:600}
+.tl.on{background:var(--brand)}
+.tl:disabled{opacity:.3}
+.sw{width:42px;height:42px;border-radius:50%;border:3px solid transparent;align-self:center}
+.sw.on{border-color:#fff}
+.ebody{flex:1;overflow:auto;padding:8px;overscroll-behavior:contain;background:#0d0f1c}
+.stage{position:relative;margin:0 auto;background:#fff}
+.stage img{display:block;width:100%;height:auto;-webkit-user-drag:none}
+.stage canvas{position:absolute;inset:0;width:100%;height:100%;touch-action:none;-webkit-touch-callout:none}
+.solve{position:fixed;inset:0;z-index:30;display:flex;flex-direction:column;background:var(--bg)}
+.stop{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 12px;padding-top:max(8px,env(safe-area-inset-top));background:var(--card)}
+.cnt{font-size:22px}
+.prog{height:5px;background:var(--line)}
+.prog i{display:block;height:100%;background:var(--brand)}
+.sbody{flex:1;overflow:auto;padding:12px;overscroll-behavior:contain}
+.solveimg{max-width:1100px;margin:0 auto;border-radius:14px;overflow:hidden;border:1px solid var(--line)}
+.sinfo{max-width:1100px;margin:10px auto 0}
+.sbar{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:10px 12px calc(10px + env(safe-area-inset-bottom));background:var(--card);border-top:1px solid var(--line)}
+.sbar .btn{min-height:58px}
+.btn.mk{background:#eef0f7;color:var(--mute)}
+.btn.mk.ok.on{background:var(--ok);color:#fff}
+.btn.mk.no.on{background:var(--bad);color:#fff}
 .chart{width:100%;height:auto;display:block}
-.empty{text-align:center;color:var(--mute);padding:36px 12px}
-#toast{position:fixed;z-index:80;left:50%;transform:translateX(-50%);bottom:calc(var(--nav) + 16px + env(safe-area-inset-bottom));background:var(--ink);color:#fff;padding:12px 18px;border-radius:14px;font-weight:700;max-width:90vw;text-align:center}
+.hb{display:grid;grid-template-columns:minmax(76px,28%) 1fr auto;gap:10px;align-items:center;margin:10px 0}
+.hb .hl{font-weight:700;overflow-wrap:anywhere}
+.hb .ht{height:14px;background:var(--bg);border-radius:9px;overflow:hidden}
+.hb .ht i{display:block;height:100%;background:var(--brand);border-radius:9px}
+.hb b{font-size:15px;white-space:nowrap}
+.stk{display:flex;height:16px;border-radius:9px;overflow:hidden;background:var(--bg)}
+.stk i{display:block;height:100%}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:14px;color:var(--mute);margin-top:6px}
+.legend u{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;text-decoration:none}
+.empty{text-align:center;color:var(--mute);padding:28px 12px}
+#toast{position:fixed;z-index:90;left:50%;transform:translateX(-50%);bottom:calc(var(--nav) + 16px + env(safe-area-inset-bottom));background:var(--ink);color:#fff;padding:12px 18px;border-radius:14px;font-weight:700;max-width:90vw;text-align:center}
 @media (orientation:landscape) and (max-height:500px){:root{--nav:52px}#nav a span{display:none}.overlay{align-items:center}.panel{border-radius:20px;max-height:96dvh}}
-@media (min-width:700px){#app{padding-left:28px;padding-right:28px}.overlay{align-items:center}.panel{border-radius:24px}.grid.two{grid-template-columns:repeat(2,1fr)}}
+@media (min-width:700px){#app{padding-left:28px;padding-right:28px}.overlay{align-items:center}.panel{border-radius:24px}.grid.two{grid-template-columns:repeat(2,1fr)}.bigrow{grid-template-columns:1fr 1fr}.sbar{grid-template-columns:repeat(4,1fr)}}
 @media (min-width:900px){
   body{padding-left:104px}
   #nav{top:0;right:auto;bottom:0;width:104px;flex-direction:column;justify-content:center;gap:6px;border-top:0;border-right:1px solid var(--line);padding:0}
@@ -94,6 +148,8 @@ textarea{min-height:96px;resize:vertical}
   #toast{bottom:24px}
   .split.detail{grid-template-columns:minmax(300px,4fr) 6fr;align-items:start}
   .split.detail .side{position:sticky;top:16px}
+  .dbody{grid-template-columns:minmax(0,1fr) 380px}
+  .dside{position:sticky;top:0}
 }
 @media (min-width:1300px){#app{padding-top:36px}}
 </style>
@@ -102,12 +158,14 @@ textarea{min-height:96px;resize:vertical}
 <nav id="nav">
   <a href="#/" data-r="home"><b>⌂</b><span>Ana Sayfa</span></a>
   <a href="#/exams" data-r="exams"><b>☰</b><span>Denemeler</span></a>
+  <a href="#/karma" data-r="karma"><b>⚡</b><span>Karma</span></a>
   <a href="#/questions" data-r="questions"><b>▣</b><span>Sorular</span></a>
   <a href="#/stats" data-r="stats"><b>▲</b><span>İstatistik</span></a>
 </nav>
 <main id="app"></main>
 <div id="sheet" class="overlay" hidden></div>
-<div id="viewer" class="overlay viewer" hidden></div>
+<div id="detail" class="full" hidden></div>
+<div id="editor" class="full" hidden></div>
 <div id="toast" hidden></div>
 
 <script>
@@ -117,29 +175,50 @@ const SUBJECTS = {
   TYT: [['Türkçe', 40], ['Matematik', 40], ['Sosyal', 20], ['Fen', 20]],
   AYT: [['Matematik', 40], ['Fizik', 14], ['Kimya', 13], ['Biyoloji', 13]]
 };
+const KARMA_SUBJ = ['Türkçe', 'Matematik', 'Fizik', 'Kimya', 'Biyoloji', 'Sosyal', 'Fen'];
+const ALL_SUBJ = [...new Set(Object.values(SUBJECTS).flat().map(x => x[0]))];
 const MONTHS = ['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'];
+const qTotal = t => SUBJECTS[t].reduce((a, s) => a + s[1], 0);
 
 /* ===== Yardımcılar ===== */
 const $ = (s, r = document) => r.querySelector(s);
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const fmt = n => (Math.round(n * 100) / 100).toFixed(2).replace('.', ',');
+const f1 = n => String(Math.round(n * 10) / 10).replace('.', ',');
 const netOf = (d, y) => (d || 0) - (y || 0) / 4;
+const avg = a => a.length ? a.reduce((x, y) => x + y, 0) / a.length : 0;
 const today = () => { const d = new Date(); return new Date(d - d.getTimezoneOffset() * 6e4).toISOString().slice(0, 10); };
 const longDate = s => { const [y, m, d] = s.split('-'); return `${+d} ${MONTHS[m - 1]} ${y}`; };
 const shortDate = s => s.split('-').reverse().join('.');
 const uid = () => Date.now() * 1000 + Math.floor(Math.random() * 1000);
+const shuffle = a => { for (let i = a.length - 1; i > 0; i--) { const j = Math.random() * (i + 1) | 0; [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const on = (s, f) => { const el = $(s); if (el) el.onclick = f; };
 function toast(msg) { const t = $('#toast'); t.textContent = msg; t.hidden = false; clearTimeout(toast.t); toast.t = setTimeout(() => t.hidden = true, 2600); }
+const focusScroll = r => r.querySelectorAll('input,textarea').forEach(i => i.addEventListener('focus', () => setTimeout(() => i.scrollIntoView({ block: 'center', behavior: 'smooth' }), 300)));
+
+/* ===== Etiket yardımcıları ===== */
+const tkey = t => t.trim().toLocaleLowerCase('tr');
+const cleanTag = t => t.replace(/\s+/g, ' ').trim();
+const hasAny = (q, keys) => !keys.length || q.tags.some(t => keys.includes(tkey(t)));
+function tagCounts(qs) {
+  const m = new Map();
+  qs.forEach(q => q.tags.forEach(t => { const k = tkey(t), e = m.get(k) || { name: t, n: 0 }; e.n++; m.set(k, e); }));
+  return [...m.values()].sort((a, b) => b.n - a.n || a.name.localeCompare(b.name, 'tr'));
+}
 
 /* ===== IndexedDB ===== */
+/* questions: {id, examId, examDate, type, subject, image, note, tags[], strokes[], overlay, createdAt}
+   Etiket istatistikleri için questions.tags üzerinde multiEntry index var. */
 let db;
 function openDB() {
   return new Promise((res, rej) => {
-    const rq = indexedDB.open('denemeden-bilemezsin', 1);
+    const rq = indexedDB.open('denemeden-bilemezsin-v2', 1);
     rq.onupgradeneeded = () => {
       const d = rq.result;
       d.createObjectStore('exams', { keyPath: 'id' });
       d.createObjectStore('weakTopics', { keyPath: 'id' }).createIndex('examId', 'examId');
-      d.createObjectStore('questions', { keyPath: 'id' }).createIndex('examId', 'examId');
+      const q = d.createObjectStore('questions', { keyPath: 'id' });
+      q.createIndex('examId', 'examId'); q.createIndex('subject', 'subject'); q.createIndex('tags', 'tags', { multiEntry: true });
     };
     rq.onsuccess = () => res(rq.result);
     rq.onerror = () => rej(rq.error);
@@ -157,7 +236,15 @@ async function delExam(id) {
 }
 const sortExams = l => l.sort((a, b) => b.date.localeCompare(a.date) || b.id - a.id);
 
-/* ===== Görüntü küçültme (oran korunur, metin okunur kalır) ===== */
+/* Etiket istatistiği altyapısı: "Kümeler'den kaç soru yapamadım?", "Son 10 denemede ..." */
+async function tagStats({ type, subject, lastN } = {}) {
+  let ex = sortExams((await all('exams')).filter(e => !type || e.type === type));
+  if (lastN) ex = ex.slice(0, lastN);
+  const ids = new Set(ex.map(e => e.id));
+  return tagCounts((await all('questions')).filter(q => ids.has(q.examId) && (!subject || q.subject === subject)));
+}
+
+/* ===== Görüntü küçültme ===== */
 async function shrink(file, max = 1800) {
   try {
     const bmp = await createImageBitmap(file, { imageOrientation: 'from-image' });
@@ -170,30 +257,34 @@ async function shrink(file, max = 1800) {
 }
 
 /* ===== Nesne URL yönetimi ===== */
-let urls = [];
-const blobURL = b => { const u = URL.createObjectURL(b); urls.push(u); return u; };
-const freeURLs = () => { urls.forEach(URL.revokeObjectURL); urls = []; };
+const mkUrls = () => { const l = []; return { u: b => { const x = URL.createObjectURL(b); l.push(x); return x; }, free: () => { l.forEach(URL.revokeObjectURL); l.length = 0; } }; };
+const page = mkUrls();
+const ovl = (q, U = page, cls = '') => `<div class="ovl ${cls}"><img src="${U.u(q.image)}" alt="Soru fotoğrafı">${q.overlay ? `<img class="drw" src="${U.u(q.overlay)}" alt="">` : ''}</div>`;
+const tagChip = t => `<span class="tg">${esc(t)}</span>`;
 
 /* ===== Yönlendirme ===== */
-const state = { exFilter: 'Tümü', qType: 'Tümü', qSubj: 'Tümü', statType: 'TYT' };
-async function route() {
-  freeURLs();
-  const [, r = '', arg] = location.hash.slice(1).split('/');
-  const name = r || 'home';
-  document.querySelectorAll('#nav a').forEach(a => a.classList.toggle('on', a.dataset.r === (name === 'exam' || name === 'add' ? 'exams' : name)));
-  const view = { home, exams, exam: () => examPage(+arg), questions, stats, add: addPage }[name] || home;
+const state = { exFilter: 'Tümü', qType: 'Tümü', qSubj: 'Tümü', qTags: [], statType: 'TYT', statN: 10, statSubj: 'Tümü' };
+const karma = { subj: null, type: 'Tümü', mode: 'random', tags: [], count: 10 };
+let sess = null, edClean = null, dU = null;
+function closeAll() { closeSheet(); closeDetail(); if (edClean) edClean(); }
+async function render() {
+  page.free();
+  const [, r = '', arg] = location.hash.slice(1).split('/'), name = r || 'home';
+  document.querySelectorAll('#nav a').forEach(a => a.classList.toggle('on', a.dataset.r === (name === 'exam' || name === 'add' ? 'exams' : name === 'solve' ? 'karma' : name)));
+  const view = { home, exams, exam: () => examPage(+arg), questions, stats, add: addPage, karma: karmaPage, solve: solvePage }[name] || home;
   $('#app').innerHTML = await view();
-  window.scrollTo(0, 0);
   bind(name, +arg);
 }
-const chipsHTML = (opts, cur, key) => `<div class="chips">${opts.map(o => `<button class="chip ${o === cur ? 'on' : ''}" data-f="${key}" data-v="${o}">${o}</button>`).join('')}</div>`;
+async function route() { closeAll(); await render(); window.scrollTo(0, 0); }
+async function refresh() { const y = window.scrollY; await render(); window.scrollTo(0, y); }
+const chipsHTML = (opts, cur, key) => `<div class="chips">${opts.map(o => { const [l, v] = Array.isArray(o) ? o : [o, o]; return `<button class="chip ${String(v) === String(cur) ? 'on' : ''}" data-f="${key}" data-v="${esc(v)}">${esc(l)}</button>`; }).join('')}</div>`;
 const examCard = e => `<a class="exam" href="#/exam/${e.id}"><div class="row between"><div><span class="tag ${e.type === 'AYT' ? 'ayt' : ''}">${e.type}</span> <b>${esc(e.name)}</b><span class="mute">${shortDate(e.date)}</span></div><div class="n">${fmt(e.totalNet)}</div></div></a>`;
 
 /* ===== Sayfalar ===== */
 async function home() {
   const ex = sortExams(await all('exams')).slice(0, 6);
   return `<div class="stack"><div><h1>DENEMEDEN BİLEMEZSİN</h1><p class="sub">Denemeni kaydet. Eksiklerini gör. Sorularını unutma.</p>
-  <a class="btn big" href="#/add">+ DENEME EKLE</a></div>
+  <div class="bigrow"><a class="btn big" href="#/add">+ DENEME EKLE</a><a class="btn big karma" href="#/karma">⚡ KARMA</a></div></div>
   <h2>Son denemeler</h2>${ex.length ? `<div class="grid">${ex.map(examCard).join('')}</div>` : '<div class="card empty">Henüz deneme yok. İlk denemeni ekleyerek başla.</div>'}</div>`;
 }
 
@@ -237,56 +328,184 @@ async function examPage(id) {
   <button class="btn danger sm" id="delexam">Denemeyi sil</button></div>
   <div class="split detail"><div class="side stack"><div class="card"><h2>Netler</h2>${netLines}<div class="net-line" style="border:0"><span>Toplam</span><span class="total">${fmt(e.totalNet)}</span></div></div>
   <div class="card"><h2>Eksik Konular</h2>${weak}</div></div>
-  <div class="card"><h2>Soru Arşivi</h2>${qHTML}</div></div></div>`;
+  <div class="card"><h2>Yapamadığım Sorular</h2>${qHTML}</div></div></div>`;
 }
 
-function qCard(q, e, showMeta) {
-  return `<div class="q"><img src="${blobURL(q.image)}" alt="Soru fotoğrafı" data-view="${q.id}" loading="lazy">
-  <div class="in">${showMeta ? `<a href="#/exam/${e.id}"><span class="tag ${e.type === 'AYT' ? 'ayt' : ''}">${e.type}</span> <b>${esc(e.name)}</b></a><div class="mute">${q.subject}</div>` : ''}
-  ${q.note ? `<p>${esc(q.note)}</p>` : ''}<div class="row between" style="margin-top:8px"><span class="mute">${new Date(q.createdAt).toLocaleDateString('tr-TR')}</span><button class="x" data-delq="${q.id}" aria-label="Soruyu sil">🗑</button></div></div></div>`;
+function qCard(q, e, meta) {
+  return `<div class="q"><div class="qi" data-open="${q.id}">${ovl(q)}</div><div class="in">
+  ${meta && e ? `<a href="#/exam/${e.id}"><span class="tag ${e.type === 'AYT' ? 'ayt' : ''}">${e.type}</span> <b>${esc(e.name)}</b></a><div class="mute">${q.subject}</div>` : ''}
+  ${q.tags.length ? `<div class="tagrow">${q.tags.map(tagChip).join('')}</div>` : ''}${q.note ? `<p>${esc(q.note)}</p>` : ''}</div></div>`;
 }
 
 async function questions() {
   const [qs, exs] = await Promise.all([all('questions'), all('exams')]);
   const m = Object.fromEntries(exs.map(e => [e.id, e]));
-  const subjList = ['Tümü', ...new Set(Object.values(SUBJECTS).flat().map(x => x[0]))];
-  const l = qs.filter(q => m[q.examId] && (state.qType === 'Tümü' || m[q.examId].type === state.qType) && (state.qSubj === 'Tümü' || q.subject === state.qSubj)).sort((a, b) => b.createdAt - a.createdAt);
-  return `<h1>Sorular</h1><p class="sub"></p>${chipsHTML(['Tümü', 'TYT', 'AYT'], state.qType, 'qType')}${chipsHTML(subjList, state.qSubj, 'qSubj')}
-  ${l.length ? `<div class="qgrid">${l.map(q => qCard(q, m[q.examId], true)).join('')}</div>` : '<div class="card empty">Arşivlenmiş soru yok. Bir denemenin içinden soru fotoğrafı ekleyebilirsin.</div>'}`;
+  const base = qs.filter(q => m[q.examId] && (state.qType === 'Tümü' || q.type === state.qType) && (state.qSubj === 'Tümü' || q.subject === state.qSubj));
+  const tags = tagCounts(base);
+  state.qTags = state.qTags.filter(k => tags.some(t => tkey(t.name) === k));
+  const l = base.filter(q => hasAny(q, state.qTags)).sort((a, b) => b.createdAt - a.createdAt);
+  return `<h1>Yapamadığım Sorular</h1><p class="sub">${l.length} soru${state.qTags.length ? ' · seçili etiketlerden herhangi birine sahip olanlar' : ''}</p>
+  ${chipsHTML(['Tümü', 'TYT', 'AYT'], state.qType, 'qType')}${chipsHTML(['Tümü', ...ALL_SUBJ], state.qSubj, 'qSubj')}
+  ${tags.length ? `<div class="chips tagbox">${tags.map(t => `<button class="chip sm ${state.qTags.includes(tkey(t.name)) ? 'on' : ''}" data-qtag="${esc(t.name)}">${esc(t.name)}<small>${t.n}</small></button>`).join('')}</div>` : ''}
+  ${l.length ? `<div class="qgrid">${l.map(q => qCard(q, m[q.examId], true)).join('')}</div>` : '<div class="card empty">Bu filtrelere uyan soru yok. Bir denemenin içinden soru fotoğrafı ekleyebilirsin.</div>'}`;
 }
 
-function chart(title, pts) {
+/* ===== Grafikler ===== */
+function lineChart(title, pts) {
   if (pts.length < 2) return `<div class="card"><h3>${title}</h3><p class="empty">Grafik için en az 2 deneme gerekir.</p></div>`;
-  const W = 600, H = 220, p = { l: 36, r: 14, t: 14, b: 26 }, top = Math.ceil(Math.max(...pts.map(x => x.v), 1) / 10) * 10 || 10;
-  const x = i => p.l + i * (W - p.l - p.r) / (pts.length - 1), y = v => H - p.b - v / top * (H - p.t - p.b);
-  const grid = [0, .5, 1].map(f => `<line x1="${p.l}" x2="${W - p.r}" y1="${y(top * f)}" y2="${y(top * f)}" stroke="#e2e4ef"/><text x="${p.l - 6}" y="${y(top * f) + 4}" text-anchor="end" font-size="12" fill="#666b85">${Math.round(top * f)}</text>`).join('');
+  const W = 600, H = 220, p = { l: 38, r: 14, t: 14, b: 26 };
+  const vals = pts.map(x => x.v), top = Math.ceil(Math.max(...vals, 1) / 10) * 10, lo = Math.min(0, Math.floor(Math.min(...vals) / 10) * 10);
+  const x = i => p.l + i * (W - p.l - p.r) / (pts.length - 1), y = v => H - p.b - (v - lo) / (top - lo) * (H - p.t - p.b);
+  const grid = [lo, (lo + top) / 2, top].map(v => `<line x1="${p.l}" x2="${W - p.r}" y1="${y(v)}" y2="${y(v)}" stroke="#e2e4ef"/><text x="${p.l - 6}" y="${y(v) + 4}" text-anchor="end" font-size="12" fill="#666b85">${Math.round(v)}</text>`).join('');
   const line = pts.map((q, i) => `${i ? 'L' : 'M'}${x(i)},${y(q.v)}`).join('');
   const dots = pts.map((q, i) => `<circle cx="${x(i)}" cy="${y(q.v)}" r="5" fill="#3b4bdb"><title>${shortDate(q.d)} · ${fmt(q.v)}</title></circle>`).join('');
   return `<div class="card"><h3>${title}</h3><svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="${title}">${grid}<path d="${line}" fill="none" stroke="#3b4bdb" stroke-width="3" stroke-linejoin="round"/>${dots}
   <text x="${p.l}" y="${H - 6}" font-size="12" fill="#666b85">${shortDate(pts[0].d)}</text><text x="${W - p.r}" y="${H - 6}" font-size="12" text-anchor="end" fill="#666b85">${shortDate(pts.at(-1).d)}</text></svg></div>`;
 }
 
-async function stats() {
-  const l = sortExams(await all('exams'));
-  const nets = l.map(e => e.totalNet);
-  const asc = t => l.filter(e => e.type === t).reverse();
-  const cell = (v, t) => `<div class="stat"><b>${v}</b><span>${t}</span></div>`;
-  const t = state.statType, list = asc(t);
-  return `<h1>İstatistik</h1><p class="sub"></p><div class="stack">
-  <div class="stats">${cell(l.length, 'Toplam deneme')}${cell(asc('TYT').length, 'TYT deneme')}${cell(asc('AYT').length, 'AYT deneme')}
-  ${cell(l.length ? fmt(l[0].totalNet) : '-', 'Son toplam net')}${cell(l.length ? fmt(nets.reduce((a, b) => a + b, 0) / l.length) : '-', 'Ortalama net')}${cell(l.length ? fmt(Math.max(...nets)) : '-', 'En yüksek net')}</div>
-  ${chipsHTML(['TYT', 'AYT'], t, 'statType')}
-  <div class="grid two">${chart(t + ' Net Değişimi', list.map(e => ({ d: e.date, v: e.totalNet })))}
-  ${SUBJECTS[t].map(([s]) => chart(s, list.filter(e => e.subjects[s]).map(e => ({ d: e.date, v: e.subjects[s].net })))).join('')}</div></div>`;
+function colChart(title, items, top) {
+  if (!items.length) return `<div class="card"><h3>${title}</h3><p class="empty">Henüz deneme yok.</p></div>`;
+  const W = 600, H = 250, p = { l: 34, r: 8, t: 24, b: 30 }, n = items.length, bw = (W - p.l - p.r) / n, w = Math.min(bw * .64, 48);
+  const y = v => H - p.b - Math.max(v, 0) / top * (H - p.t - p.b);
+  const grid = [0, .5, 1].map(f => `<line x1="${p.l}" x2="${W - p.r}" y1="${y(top * f)}" y2="${y(top * f)}" stroke="#e2e4ef"/><text x="${p.l - 6}" y="${y(top * f) + 4}" text-anchor="end" font-size="12" fill="#666b85">${Math.round(top * f)}</text>`).join('');
+  const bars = items.map((it, i) => { const cx = p.l + bw * i + bw / 2; return `<rect x="${cx - w / 2}" y="${y(it.v)}" width="${w}" height="${H - p.b - y(it.v)}" rx="6" fill="#3b4bdb"${i === n - 1 ? '' : ' opacity=".55"'}><title>${it.l} · ${fmt(it.v)}</title></rect>
+    <text x="${cx}" y="${y(it.v) - 6}" text-anchor="middle" font-size="${n > 9 ? 10 : 12}" font-weight="700" fill="#14172b">${f1(it.v)}</text>
+    <text x="${cx}" y="${H - 10}" text-anchor="middle" font-size="${n > 9 ? 10 : 11}" fill="#666b85">${it.l}</text>`; }).join('');
+  return `<div class="card"><h3>${title}</h3><svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="${title}">${grid}${bars}</svg></div>`;
 }
 
-/* ===== Olaylar ===== */
+const hBars = (items, max) => items.length ? items.map(i => `<div class="hb"><span class="hl">${esc(i.l)}</span><div class="ht"><i style="width:${Math.max(0, Math.min(100, i.v / max * 100))}%"></i></div><b>${i.t}</b></div>`).join('') : '<p class="empty">Veri yok.</p>';
+
+async function stats() {
+  const t = state.statType, n = state.statN, subs = SUBJECTS[t];
+  const [every, qsAll, topsAll] = await Promise.all([all('exams'), all('questions'), all('weakTopics')]);
+  const exAll = sortExams(every.filter(e => e.type === t)), ex = n ? exAll.slice(0, n) : exAll, asc = [...ex].reverse();
+  const ids = new Set(ex.map(e => e.id)), qsIn = qsAll.filter(q => ids.has(q.examId));
+  const cell = (v, l, c = '') => `<div class="stat"><b class="${c}">${v}</b><span>${l}</span></div>`;
+  const overview = `<div class="stats">${cell(every.length, 'Toplam deneme')}${cell(every.filter(e => e.type === 'TYT').length, 'TYT deneme')}${cell(every.filter(e => e.type === 'AYT').length, 'AYT deneme')}${cell(qsAll.length, 'Arşivdeki soru')}</div>`;
+  const filters = `${chipsHTML(['TYT', 'AYT'], t, 'statType')}${chipsHTML([['Son 5', 5], ['Son 10', 10], ['Tümü', 0]], n, 'statN')}`;
+  if (!exAll.length) return `<h1>İstatistik</h1><p class="sub"></p><div class="stack">${overview}${filters}<div class="card empty">${t} için henüz deneme yok.</div></div>`;
+
+  const nets = ex.map(e => e.totalNet), diff = exAll.length > 1 ? exAll[0].totalNet - exAll[1].totalNet : null;
+  const cells = `<div class="stats">${cell(fmt(exAll[0].totalNet), 'Son toplam net')}${cell(fmt(avg(nets)), 'Ortalama net')}${cell(fmt(Math.max(...nets)), 'En yüksek net')}${cell(fmt(Math.min(...nets)), 'En düşük net')}
+    ${cell(diff === null ? '-' : (diff >= 0 ? '+' : '') + fmt(diff), 'Önceki denemeye göre', diff === null ? '' : diff >= 0 ? 'ok' : 'bad')}${cell(ex.length, 'Analizdeki deneme')}</div>`;
+
+  const subAvg = subs.map(([s, mx]) => { const l = ex.filter(e => e.subjects[s]), g = k => avg(l.map(e => e.subjects[s][k])); return { s, mx, net: g('net'), d: g('d'), y: g('y'), b: g('b') }; });
+  const subBars = hBars(subAvg.map(a => ({ l: a.s, v: a.net, t: `${fmt(a.net)} / ${a.mx}` })), Math.max(...subAvg.map(a => a.mx)));
+  const seg = (v, mx, c) => `<i style="width:${v / mx * 100}%;background:${c}"></i>`;
+  const dyb = subAvg.map(a => `<div style="margin:14px 0"><div class="row between"><b>${a.s}</b><span class="mute">D ${f1(a.d)} · Y ${f1(a.y)} · B ${f1(a.b)}</span></div>
+    <div class="stk">${seg(a.d, a.mx, '#0f9d6e')}${seg(a.y, a.mx, '#d64545')}${seg(a.b, a.mx, '#c9cddd')}</div></div>`).join('')
+    + `<div class="legend"><span><u style="background:#0f9d6e"></u>Doğru</span><span><u style="background:#d64545"></u>Yanlış</span><span><u style="background:#c9cddd"></u>Boş</span><span>(ortalama soru sayısı)</span></div>`;
+
+  const subCount = hBars(subs.map(([s]) => ({ l: s, v: qsIn.filter(q => q.subject === s).length, t: qsIn.filter(q => q.subject === s).length + ' soru' })), Math.max(1, ...subs.map(([s]) => qsIn.filter(q => q.subject === s).length)));
+  const tg = (await tagStats({ type: t, subject: state.statSubj === 'Tümü' ? null : state.statSubj, lastN: n })).slice(0, 10);
+  const tagBars = hBars(tg.map(x => ({ l: x.name, v: x.n, t: x.n + ' soru' })), Math.max(1, ...tg.map(x => x.n)));
+  const wm = new Map();
+  topsAll.filter(x => ids.has(x.examId)).forEach(x => { const k = x.subject + '|' + tkey(x.topic), e = wm.get(k) || { l: `${x.topic} (${x.subject})`, v: 0 }; e.v++; wm.set(k, e); });
+  const wt = [...wm.values()].sort((a, b) => b.v - a.v).slice(0, 8);
+
+  return `<h1>İstatistik</h1><p class="sub"></p><div class="stack">${overview}${filters}${cells}
+  <div class="grid two">${lineChart(t + ' Net Değişimi', asc.map(e => ({ d: e.date, v: e.totalNet })))}${colChart('Denemelere göre net', asc.slice(-15).map(e => ({ l: shortDate(e.date).slice(0, 5), v: e.totalNet })), qTotal(t))}
+  <div class="card"><h3>Ders ortalamaları (net)</h3>${subBars}</div><div class="card"><h3>Doğru / Yanlış / Boş dağılımı</h3>${dyb}</div></div>
+  <h2>Ders bazında net değişimi</h2>
+  <div class="grid two">${subs.map(([s]) => lineChart(s, asc.filter(e => e.subjects[s]).map(e => ({ d: e.date, v: e.subjects[s].net })))).join('')}</div>
+  <h2>Yapamadığım soru analizi</h2>
+  <div class="grid two"><div class="card"><h3>Derse göre soru sayısı</h3>${subCount}</div>
+  <div class="card"><h3>En çok yapamadığım etiketler</h3>${chipsHTML(['Tümü', ...subs.map(x => x[0])], state.statSubj, 'statSubj')}${tagBars}</div></div>
+  <div class="card"><h3>En sık yazdığım eksik konular</h3>${hBars(wt.map(x => ({ l: x.l, v: x.v, t: x.v + '×' })), Math.max(1, ...wt.map(x => x.v)))}</div></div>`;
+}
+
+/* ===== Karma ===== */
+async function karmaPage() {
+  const qs = await all('questions');
+  const typed = qs.filter(q => karma.type === 'Tümü' || q.type === karma.type);
+  let body = '';
+  if (!qs.length) return `<h1>Karma</h1><p class="sub"></p><div class="card empty">Karma için önce yapamadığın soruları arşive eklemelisin. Bir denemenin içinden "+ Soru ekle" ile başla.</div>`;
+  if (karma.subj) {
+    const pool = typed.filter(q => q.subject === karma.subj), tags = tagCounts(pool);
+    karma.tags = karma.tags.filter(k => tags.some(t => tkey(t.name) === k));
+    const sel = karma.mode === 'tag' ? (karma.tags.length ? pool.filter(q => hasAny(q, karma.tags)) : []) : pool;
+    const cnt = karma.count === 'all' ? sel.length : Math.min(karma.count, sel.length);
+    body = `<h2>2 · Karma türü</h2>${chipsKV([['Rastgele Karma', 'random'], ['Tag Bazlı Karma', 'tag']], karma.mode, 'data-km')}
+    ${karma.mode === 'tag' ? `<p class="mute" style="margin-bottom:10px">Bir veya birkaç etiket seç. Seçtiklerinden herhangi birine sahip sorulardan karma yapılır.</p>
+      ${tags.length ? `<div class="chips tagbox">${tags.map(t => `<button class="chip sm ${karma.tags.includes(tkey(t.name)) ? 'on' : ''}" data-ktag="${esc(t.name)}">${esc(t.name)}<small>${t.n}</small></button>`).join('')}</div>` : '<div class="card empty">Bu derste etiketli soru yok.</div>'}` : ''}
+    <h2>3 · Soru sayısı</h2>${chipsKV([['5', 5], ['10', 10], ['15', 15], ['20', 20], ['Tümü', 'all']], karma.count, 'data-kc')}
+    <div class="card row between"><div><span class="mute">Karmaya girecek</span><div class="total">${cnt} soru</div><span class="mute">Havuzda ${sel.length} soru var</span></div>
+    <button class="btn" id="kstart" ${sel.length ? '' : 'disabled'}>Karmayı başlat</button></div>`;
+  }
+  return `<h1>Karma</h1><p class="sub">Yapamadığın sorulardan kendine test hazırla.</p>
+  ${chipsKV([['Tümü', 'Tümü'], ['TYT', 'TYT'], ['AYT', 'AYT']], karma.type, 'data-kt')}
+  <h2>1 · Ders</h2><div class="subjgrid">${KARMA_SUBJ.map(s => `<button class="ksub ${karma.subj === s ? 'on' : ''}" data-ks="${s}">${s}<span>${typed.filter(q => q.subject === s).length} soru</span></button>`).join('')}</div>${body}`;
+}
+const chipsKV = (opts, cur, attr) => `<div class="chips">${opts.map(([l, v]) => `<button class="chip ${String(v) === String(cur) ? 'on' : ''}" ${attr}="${v}">${l}</button>`).join('')}</div>`;
+
+async function buildKarma() {
+  let pool = (await all('questions')).filter(q => q.subject === karma.subj && (karma.type === 'Tümü' || q.type === karma.type));
+  if (karma.mode === 'tag') pool = pool.filter(q => hasAny(q, karma.tags));
+  shuffle(pool);
+  const qs = pool.slice(0, karma.count === 'all' ? pool.length : karma.count);
+  if (!qs.length) return toast('Bu seçimle soru bulunamadı');
+  sess = { qs, ex: Object.fromEntries((await all('exams')).map(e => [e.id, e])), i: 0, res: {} };
+  if (location.hash === '#/solve') showSolve(); else location.hash = '#/solve';
+}
+
+const solvePage = async () => { if (!sess) { location.hash = '#/karma'; return ''; } return solveHTML(); };
+function solveHTML() {
+  const n = sess.qs.length;
+  if (sess.i >= n) return resultHTML();
+  const q = sess.qs[sess.i], e = sess.ex[q.examId], m = sess.res[q.id];
+  return `<div class="solve"><div class="stop"><button class="btn ghost sm" id="sx">✕ Çık</button><b class="cnt">${sess.i + 1} / ${n}</b><button class="btn alt sm" id="sd">✏ Çiz</button></div>
+  <div class="prog"><i style="width:${(sess.i + 1) / n * 100}%"></i></div>
+  <div class="sbody"><div class="solveimg">${ovl(q)}</div>
+  <div class="sinfo"><span class="mute">${q.subject}${e ? ' · ' + esc(e.name) : ''}</span>${q.tags.length ? `<div class="tagrow">${q.tags.map(tagChip).join('')}</div>` : ''}${q.note ? `<p style="margin-top:8px;white-space:pre-wrap">${esc(q.note)}</p>` : ''}</div></div>
+  <div class="sbar"><button class="btn mk no ${m === 'no' ? 'on' : ''}" id="mno">✗ Çözemedim</button><button class="btn mk ok ${m === 'ok' ? 'on' : ''}" id="mok">✓ Çözdüm</button>
+  <button class="btn alt" id="sp" ${sess.i ? '' : 'disabled'}>← Önceki</button><button class="btn" id="sn">${sess.i === n - 1 ? 'Bitir ✓' : 'Sonraki →'}</button></div></div>`;
+}
+function resultHTML() {
+  const qs = sess.qs, r = sess.res, ok = qs.filter(q => r[q.id] === 'ok').length, no = qs.filter(q => r[q.id] === 'no');
+  return `<div class="solve"><div class="sbody"><div class="stack" style="max-width:900px;margin:0 auto"><h1>Karma bitti 🎉</h1>
+  <div class="stats"><div class="stat"><b>${qs.length}</b><span>Toplam soru</span></div><div class="stat"><b class="ok">${ok}</b><span>Çözdüm</span></div><div class="stat"><b class="bad">${no.length}</b><span>Çözemedim</span></div><div class="stat"><b>${qs.length - ok - no.length}</b><span>İşaretlenmedi</span></div></div>
+  ${no.length ? `<div class="card"><h2>Tekrar bak</h2><div class="qgrid">${no.map(q => `<div class="q"><div class="qi" data-open="${q.id}">${ovl(q)}</div></div>`).join('')}</div></div>` : ''}
+  <div class="row"><button class="btn" id="again">Yeni karma (aynı ayar)</button><a class="btn alt" href="#/karma">Karma ekranı</a><a class="btn ghost" href="#/">Ana sayfa</a></div></div></div></div>`;
+}
+function showSolve() { page.free(); $('#app').innerHTML = solveHTML(); bindSolve(); }
+function bindSolve() {
+  if (!sess) return;
+  const q = sess.qs[sess.i], n = sess.qs.length;
+  on('#sx', () => { if (confirm('Karmadan çıkılsın mı?')) { sess = null; location.hash = '#/karma'; } });
+  on('#sd', () => openEditor(q.id, async () => { sess.qs[sess.i] = await get('questions', q.id); showSolve(); }));
+  on('#mok', () => { sess.res[q.id] = 'ok'; showSolve(); });
+  on('#mno', () => { sess.res[q.id] = 'no'; showSolve(); });
+  on('#sp', () => { sess.i--; showSolve(); });
+  on('#sn', () => { sess.i++; showSolve(); });
+  on('#again', buildKarma);
+  document.querySelectorAll('[data-open]').forEach(el => el.onclick = () => openDetail(+el.dataset.open));
+}
+function bindKarma() {
+  const each = (s, f) => document.querySelectorAll(s).forEach(f);
+  each('[data-ks]', b => b.onclick = () => { karma.subj = b.dataset.ks; karma.tags = []; refresh(); });
+  each('[data-kt]', b => b.onclick = () => { karma.type = b.dataset.kt; karma.tags = []; refresh(); });
+  each('[data-km]', b => b.onclick = () => { karma.mode = b.dataset.km; refresh(); });
+  each('[data-kc]', b => b.onclick = () => { karma.count = b.dataset.kc === 'all' ? 'all' : +b.dataset.kc; refresh(); });
+  each('[data-ktag]', b => b.onclick = () => { const k = tkey(b.dataset.ktag); karma.tags = karma.tags.includes(k) ? karma.tags.filter(x => x !== k) : [...karma.tags, k]; refresh(); });
+  on('#kstart', buildKarma);
+}
+
+/* ===== Genel olaylar ===== */
 function bind(name, id) {
-  document.querySelectorAll('[data-f]').forEach(b => b.onclick = () => { state[b.dataset.f] = b.dataset.v; route(); });
-  document.querySelectorAll('[data-view]').forEach(i => i.onclick = () => openViewer(+i.dataset.view));
-  document.querySelectorAll('[data-delq]').forEach(b => b.onclick = async () => { if (confirm('Bu soru silinsin mi?')) { await del('questions', +b.dataset.delq); route(); } });
+  document.querySelectorAll('[data-f]').forEach(b => b.onclick = () => {
+    const k = b.dataset.f, v = b.dataset.v;
+    state[k] = k === 'statN' ? +v : v;
+    if (k === 'qType' || k === 'qSubj') state.qTags = [];
+    if (k === 'statType') state.statSubj = 'Tümü';
+    refresh();
+  });
+  document.querySelectorAll('[data-open]').forEach(el => el.onclick = () => openDetail(+el.dataset.open));
+  document.querySelectorAll('[data-qtag]').forEach(b => b.onclick = () => { const k = tkey(b.dataset.qtag); state.qTags = state.qTags.includes(k) ? state.qTags.filter(x => x !== k) : [...state.qTags, k]; refresh(); });
   if (name === 'add') bindAdd();
   if (name === 'exam') bindExam(id);
+  if (name === 'karma') bindKarma();
+  if (name === 'solve') bindSolve();
 }
 
 function bindAdd() {
@@ -294,10 +513,10 @@ function bindAdd() {
   const calc = () => {
     let tot = 0;
     document.querySelectorAll('.subj').forEach(s => { const v = k => +s.querySelector(`[data-k=${k}]`).value || 0; const n = netOf(v('d'), v('y')); s.querySelector('[data-net]').textContent = fmt(n); tot += n; });
-    $('#tot').textContent = fmt(tot); return tot;
+    $('#tot').textContent = fmt(tot);
   };
   document.querySelectorAll('.dyb input').forEach(i => i.oninput = calc);
-  document.querySelectorAll('input').forEach(i => i.addEventListener('focus', () => setTimeout(() => i.scrollIntoView({ block: 'center', behavior: 'smooth' }), 300)));
+  focusScroll($('#app'));
   $('#save').onclick = async () => {
     const name = $('#nm').value.trim(), date = $('#dt').value;
     if (!name || !date) return toast('Deneme adı ve tarih gerekli');
@@ -316,17 +535,40 @@ function bindAdd() {
 }
 
 function bindExam(id) {
-  $('#delexam').onclick = async () => { if (confirm('Deneme, eksik konular ve soru fotoğrafları silinecek. Emin misin?')) { await delExam(id); location.hash = '#/exams'; } };
-  document.querySelectorAll('[data-deltopic]').forEach(b => b.onclick = async () => { await del('weakTopics', +b.dataset.deltopic); route(); });
+  on('#delexam', async () => { if (confirm('Deneme, eksik konular ve soru fotoğrafları silinecek. Emin misin?')) { await delExam(id); location.hash = '#/exams'; } });
+  document.querySelectorAll('[data-deltopic]').forEach(b => b.onclick = async () => { await del('weakTopics', +b.dataset.deltopic); refresh(); });
   document.querySelectorAll('[data-addtopic]').forEach(b => b.onclick = () => topicSheet(id, b.dataset.addtopic));
   document.querySelectorAll('[data-addq]').forEach(b => b.onclick = () => questionSheet(id, b.dataset.addq));
+}
+
+/* ===== Etiket seçici (öneri + yeni oluşturma) ===== */
+function tagPicker(mount, init, known) {
+  let sel = [...init];
+  mount.innerHTML = `<div class="tagrow" data-sel style="margin:0 0 8px"></div><input placeholder="Etiket yaz (örn. Kümeler)" autocomplete="off" enterkeyhint="done"><div class="sugg" data-sg></div>`;
+  const inp = $('input', mount), selEl = $('[data-sel]', mount), sg = $('[data-sg]', mount);
+  const has = t => sel.some(s => tkey(s) === tkey(t));
+  const add = t => { t = cleanTag(t); if (!t || has(t)) { inp.value = ''; draw(); return; } sel.push(known.find(x => tkey(x) === tkey(t)) || t); inp.value = ''; draw(); };
+  function draw() {
+    selEl.innerHTML = sel.map((t, i) => `<span class="tg on">${esc(t)}<button type="button" class="tx" data-rm="${i}" aria-label="Kaldır">✕</button></span>`).join('');
+    const v = tkey(inp.value), list = known.filter(t => !has(t) && (!v || tkey(t).includes(v))).slice(0, 8);
+    const exact = v && known.some(t => tkey(t) === v) || v && has(inp.value);
+    sg.innerHTML = list.map(t => `<button type="button" class="chip sm" data-a="${esc(t)}">${esc(t)}</button>`).join('') + (v && !exact ? `<button type="button" class="chip sm new" data-a="${esc(cleanTag(inp.value))}">+ "${esc(cleanTag(inp.value))}" oluştur</button>` : '');
+  }
+  mount.onclick = e => {
+    const r = e.target.closest('[data-rm]'); if (r) { sel.splice(+r.dataset.rm, 1); draw(); return; }
+    const a = e.target.closest('[data-a]'); if (a) { add(a.dataset.a); inp.focus(); }
+  };
+  inp.oninput = draw;
+  inp.onkeydown = e => { if (e.key === 'Enter' || e.key === ',') { e.preventDefault(); add(inp.value); } };
+  draw();
+  return { get: () => { if (inp.value.trim()) add(inp.value); return sel; } };
 }
 
 /* ===== Alt paneller ===== */
 function openSheet(html) {
   const s = $('#sheet'); s.innerHTML = `<div class="panel">${html}</div>`; s.hidden = false;
   s.onclick = e => { if (e.target === s) closeSheet(); };
-  s.querySelectorAll('input,textarea').forEach(i => i.addEventListener('focus', () => setTimeout(() => i.scrollIntoView({ block: 'center', behavior: 'smooth' }), 300)));
+  focusScroll(s);
   return s;
 }
 function closeSheet() { $('#sheet').hidden = true; $('#sheet').innerHTML = ''; }
@@ -335,39 +577,142 @@ function topicSheet(examId, subject) {
   const s = openSheet(`<h2>${subject}: eksik konu</h2><input id="tp" placeholder="Eksik olduğun konuyu yaz..." autocomplete="off" enterkeyhint="done">
   <div class="row" style="margin-top:14px"><button class="btn" id="ok">Ekle</button><button class="btn ghost" id="no">Vazgeç</button></div>`);
   const inp = $('#tp', s); inp.focus();
-  const add = async () => { const t = inp.value.trim(); if (!t) return; await put('weakTopics', { id: uid(), examId, subject, topic: t, createdAt: Date.now() }); closeSheet(); route(); };
+  const add = async () => { const t = inp.value.trim(); if (!t) return; await put('weakTopics', { id: uid(), examId, subject, topic: t, createdAt: Date.now() }); closeSheet(); refresh(); };
   $('#ok', s).onclick = add; $('#no', s).onclick = closeSheet; inp.onkeydown = e => e.key === 'Enter' && add();
 }
 
-function questionSheet(examId, subject) {
+async function questionSheet(examId, subject) {
+  const e = await get('exams', examId), known = tagCounts(await all('questions')).map(t => t.name), U = mkUrls();
   let blob = null;
   const s = openSheet(`<h2>${subject}: soru ekle</h2><div class="stack">
   <div class="row"><label class="btn alt" style="flex:1;margin:0">📷 Fotoğraf çek<input type="file" accept="image/*" capture="environment" hidden data-file></label>
   <label class="btn alt" style="flex:1;margin:0">🖼 Galeriden seç<input type="file" accept="image/*" hidden data-file></label></div>
-  <img class="preview" id="pv" alt="" hidden><div><label for="nt">Not (isteğe bağlı)</label><textarea id="nt" placeholder="Bu soruda ne yanlış yaptın?"></textarea></div>
+  <img class="preview" id="pv" alt="" hidden>
+  <div><label>Etiketler</label><div id="qtags"></div></div>
+  <div><label for="nt">Not (isteğe bağlı)</label><textarea id="nt" placeholder="Bu soruda ne yanlış yaptın?"></textarea></div>
   <div class="row"><button class="btn" id="ok">Kaydet</button><button class="btn ghost" id="no">Vazgeç</button></div></div>`);
+  const pk = tagPicker($('#qtags', s), [], known);
+  focusScroll(s);
   s.querySelectorAll('[data-file]').forEach(f => f.onchange = async () => {
     if (!f.files[0]) return;
     toast('Fotoğraf hazırlanıyor...'); blob = await shrink(f.files[0]);
-    const pv = $('#pv', s); pv.src = blobURL(blob); pv.hidden = false;
+    const pv = $('#pv', s); pv.src = U.u(blob); pv.hidden = false;
   });
-  $('#no', s).onclick = closeSheet;
+  $('#no', s).onclick = () => { closeSheet(); U.free(); };
   $('#ok', s).onclick = async () => {
     if (!blob) return toast('Önce bir fotoğraf seç');
-    await put('questions', { id: uid(), examId, subject, image: blob, note: $('#nt', s).value.trim(), createdAt: Date.now() });
-    closeSheet(); toast('Soru arşive eklendi'); route();
+    await put('questions', { id: uid(), examId, examDate: e.date, type: e.type, subject, image: blob, note: $('#nt', s).value.trim(), tags: pk.get(), strokes: [], overlay: null, createdAt: Date.now() });
+    closeSheet(); U.free(); toast('Soru arşive eklendi'); refresh();
   };
 }
 
-async function openViewer(id) {
-  const q = await get('questions', id), e = await get('exams', q.examId), v = $('#viewer');
-  v.innerHTML = `<div class="bar"><button class="btn" id="back">← Geri</button><span>${esc(e?.name || '')} · ${q.subject}</span></div>
-  <div class="body"><img src="${blobURL(q.image)}" alt="Soru"></div>${q.note ? `<div class="cap">${esc(q.note)}</div>` : ''}`;
-  v.hidden = false;
-  const img = $('img', v); img.onclick = () => img.classList.toggle('zoom');
-  $('#back').onclick = () => { v.hidden = true; v.innerHTML = ''; };
+/* ===== Soru detayı ===== */
+function closeDetail() { const b = $('#detail'); b.hidden = true; b.innerHTML = ''; if (dU) { dU.free(); dU = null; } }
+async function openDetail(id) {
+  const q = await get('questions', id); if (!q) return;
+  const e = await get('exams', q.examId), known = tagCounts(await all('questions')).map(t => t.name);
+  if (dU) dU.free(); dU = mkUrls();
+  const box = $('#detail'); box.hidden = false;
+  box.innerHTML = `<div class="dtop"><button class="btn ghost sm" id="dback">← Geri</button><b>${q.subject}</b><button class="btn sm" id="ddraw">✏ Çiz / Yakınlaştır</button></div>
+  <div class="dbody"><div class="dimg" id="dimg">${ovl(q, dU)}</div><div class="dside stack">
+  <div class="card stack"><div>${e ? `<span class="tag ${e.type === 'AYT' ? 'ayt' : ''}">${e.type}</span> <a href="#/exam/${e.id}"><b>${esc(e.name)}</b></a><div class="mute">${q.subject} · ${longDate(e.date)}</div>` : `<b>${q.subject}</b>`}</div>
+  <div><label>Etiketler</label><div id="dtags"></div></div>
+  <div><label for="dnote">Not</label><textarea id="dnote" placeholder="Not ekle...">${esc(q.note)}</textarea></div>
+  <div class="row"><button class="btn" id="dsave">Kaydet</button><button class="btn danger" id="ddel">Soruyu sil</button></div></div></div></div>`;
+  const pk = tagPicker($('#dtags', box), q.tags, known);
+  focusScroll(box);
+  box.querySelectorAll('a').forEach(a => a.addEventListener('click', closeDetail));
+  $('#dback').onclick = closeDetail;
+  $('#ddraw').onclick = $('#dimg').onclick = () => { closeDetail(); openEditor(id, () => { openDetail(id); refresh(); }); };
+  $('#dsave').onclick = async () => { await put('questions', { ...q, tags: pk.get(), note: $('#dnote').value.trim() }); closeDetail(); toast('Kaydedildi'); refresh(); };
+  $('#ddel').onclick = async () => { if (confirm('Bu soru silinsin mi?')) { await del('questions', id); closeDetail(); refresh(); } };
 }
-document.addEventListener('keydown', e => { if (e.key === 'Escape') { $('#viewer').hidden = true; closeSheet(); } });
+
+/* ===== Çizim editörü (ayrı canvas katmanı, vektör çizgiler) ===== */
+async function openEditor(id, done) {
+  const q = await get('questions', id); if (!q) return;
+  const U = mkUrls(), box = $('#editor');
+  let strokes = [...(q.strokes || [])], redo = [], tool = 'pen', color = '#e03131', zoom = 1, dirty = false, cur = null, pid = null, ratio = 1;
+  box.hidden = false;
+  box.innerHTML = `<div class="etop"><button class="btn ghost sm" id="ex">✕ Vazgeç</button><b>${esc(q.subject)} · Çizim</b><button class="btn sm" id="ed">✓ Bitti</button></div>
+  <div class="etools">
+  <button class="tl on" data-t="pen"><i>✎</i><span>Kalem</span></button>
+  <button class="tl" data-t="erase"><i>⌫</i><span>Silgi</span></button>
+  <button class="tl" data-t="pan"><i>✋</i><span>Gez</span></button>
+  <button class="sw on" data-c="#e03131" style="background:#e03131" aria-label="Kırmızı"></button>
+  <button class="sw" data-c="#1c7ed6" style="background:#1c7ed6" aria-label="Mavi"></button>
+  <button class="sw" data-c="#212529" style="background:#212529" aria-label="Siyah"></button>
+  <button class="tl" id="eu"><i>↶</i><span>Geri al</span></button>
+  <button class="tl" id="er"><i>↷</i><span>Yinele</span></button>
+  <button class="tl" id="ec"><i>🗑</i><span>Temizle</span></button>
+  <button class="tl" id="ezo"><i>−</i><span>Uzaklaş</span></button>
+  <button class="tl" id="ezi"><i>+</i><span>Yakınlaş</span></button></div>
+  <div class="ebody" id="eb"><div class="stage" id="st"><img id="ei" alt="Soru"><canvas id="cv"></canvas></div></div>`;
+  const img = $('#ei'), cv = $('#cv'), ctx = cv.getContext('2d');
+  cv.oncontextmenu = e => e.preventDefault();
+  const fit = () => { const b = $('#eb'); if (!b) return; const w = Math.min(b.clientWidth - 16, (b.clientHeight - 16) * ratio); $('#st').style.width = Math.max(w, 60) * zoom + 'px'; };
+  function seg(s, from) {
+    const W = cv.width, p = s.p;
+    ctx.globalCompositeOperation = s.t === 'e' ? 'destination-out' : 'source-over';
+    ctx.strokeStyle = ctx.fillStyle = s.c; ctx.lineWidth = s.w * W; ctx.lineCap = ctx.lineJoin = 'round';
+    if (p.length === 1) { ctx.beginPath(); ctx.arc(p[0][0] * W, p[0][1] * W, s.w * W / 2, 0, 7); ctx.fill(); return; }
+    const a = Math.max(from, 1);
+    ctx.beginPath(); ctx.moveTo(p[a - 1][0] * W, p[a - 1][1] * W);
+    for (let i = a; i < p.length; i++) ctx.lineTo(p[i][0] * W, p[i][1] * W);
+    ctx.stroke();
+  }
+  const redraw = () => { ctx.clearRect(0, 0, cv.width, cv.height); strokes.forEach(s => seg(s, 0)); };
+  const sync = () => { $('#eu').disabled = !strokes.length; $('#er').disabled = !redo.length; };
+  img.onload = () => { cv.width = img.naturalWidth; cv.height = img.naturalHeight; ratio = cv.width / cv.height; fit(); redraw(); sync(); };
+  img.src = U.u(q.image);
+  addEventListener('resize', fit);
+  const pt = e => { const r = cv.getBoundingClientRect(); return [(e.clientX - r.left) / r.width, (e.clientY - r.top) / r.width]; };
+  cv.onpointerdown = e => {
+    if (tool === 'pan' || pid !== null) return;
+    e.preventDefault(); pid = e.pointerId; cv.setPointerCapture(pid);
+    cur = { t: tool === 'erase' ? 'e' : 'p', c: color, w: tool === 'erase' ? .03 : .0032, p: [pt(e)] };
+    strokes.push(cur); redo = []; dirty = true; seg(cur, 0); sync();
+  };
+  cv.onpointermove = e => {
+    if (!cur || e.pointerId !== pid) return;
+    e.preventDefault();
+    const evs = e.getCoalescedEvents ? e.getCoalescedEvents() : [], list = evs.length ? evs : [e], start = cur.p.length;
+    list.forEach(x => cur.p.push(pt(x))); seg(cur, start);
+  };
+  const end = e => { if (e.pointerId === pid) { cur = null; pid = null; } };
+  cv.onpointerup = end; cv.onpointercancel = end;
+  const setTool = t => {
+    tool = t; cv.style.touchAction = t === 'pan' ? 'auto' : 'none';
+    box.querySelectorAll('[data-t]').forEach(b => b.classList.toggle('on', b.dataset.t === t));
+  };
+  box.querySelectorAll('[data-t]').forEach(b => b.onclick = () => setTool(b.dataset.t));
+  box.querySelectorAll('[data-c]').forEach(b => b.onclick = () => {
+    color = b.dataset.c; if (tool !== 'pen') setTool('pen');
+    box.querySelectorAll('[data-c]').forEach(x => x.classList.toggle('on', x === b));
+  });
+  $('#eu').onclick = () => { if (strokes.length) { redo.push(strokes.pop()); dirty = true; redraw(); sync(); } };
+  $('#er').onclick = () => { if (redo.length) { strokes.push(redo.pop()); dirty = true; redraw(); sync(); } };
+  $('#ec').onclick = () => { if (strokes.length && confirm('Tüm çizimler silinsin mi?')) { strokes = []; redo = []; dirty = true; redraw(); sync(); } };
+  $('#ezi').onclick = () => { zoom = Math.min(5, zoom * 1.4); fit(); };
+  $('#ezo').onclick = () => { zoom = Math.max(1, zoom / 1.4); fit(); };
+  const close = () => { edClean && edClean(); if (done) done(); };
+  edClean = () => { removeEventListener('resize', fit); U.free(); box.hidden = true; box.innerHTML = ''; edClean = null; };
+  $('#ex').onclick = () => { if (dirty && !confirm('Kaydedilmemiş çizimler silinecek. Çıkılsın mı?')) return; close(); };
+  $('#ed').onclick = async () => {
+    if (dirty) {
+      const overlay = strokes.length ? await new Promise(r => cv.toBlob(r, 'image/png')) : null;
+      const fresh = await get('questions', id);
+      await put('questions', { ...fresh, strokes, overlay });
+      toast('Çizim kaydedildi');
+    }
+    close();
+  };
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key !== 'Escape') return;
+  if (!$('#editor').hidden) $('#ex').click(); else if (!$('#detail').hidden) closeDetail(); else closeSheet();
+});
 
 /* ===== Başlat ===== */
 window.addEventListener('hashchange', route);
